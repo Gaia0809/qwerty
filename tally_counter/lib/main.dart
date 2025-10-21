@@ -37,9 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _decrementCounter() {
+  void _halveCounter() {
     setState(() {
-      _counter--;
+      _counter ~/= 2;
     });
   }
 
@@ -63,17 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton(
-            onPressed: _decrementCounter,
-            tooltip: 'Decrement',
-            child: const Icon(Icons.remove),
+            onPressed: _halveCounter,
+            tooltip: 'Halve', // dimezzare
+            child: Text('Halve'),
           ),
           const SizedBox(width: 16),
           FloatingActionButton(
             onPressed: _incrementCounter,
-            tooltip: 'Increment',
+            tooltip: 'Increment', 
             child: const Icon(Icons.add),
           ),
         ],
