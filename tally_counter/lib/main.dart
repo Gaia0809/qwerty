@@ -74,28 +74,38 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('Benvenuto nel nostro contatore!'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                   onPressed: _decrementCounter,
+                  tooltip: 'Decrement',
+                  child: const Icon(Icons.remove),
+                ),
+                const SizedBox(width: 20),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(width: 20),
+                FloatingActionButton(
+                  onPressed: _incrementCounter,
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
+              ]
             ),
+            
           ],
         ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          //halve
           FloatingActionButton(
             onPressed: _halveCounter,
-            tooltip: 'Halve',
+            tooltip: 'Halve', //dimezza
             child: Text('Halve'),
-          ),
-          //decre
-          const SizedBox(width: 20),
-          FloatingActionButton(
-            onPressed: _decrementCounter,
-            tooltip: 'Decrement',
-            child: const Icon(Icons.remove),
           ),
           const SizedBox(width: 20),
           FloatingActionButton(
@@ -105,15 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           const SizedBox(width: 20),
           FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),//incrementa
-          ),
-          //raddoppia
-          const SizedBox(width: 20),
-          FloatingActionButton(
             onPressed: _doubleCounter,
-            tooltip: 'Double',
+            tooltip: 'Double',//raddoppia
             child: Text('Double'),
           ),
         ],
