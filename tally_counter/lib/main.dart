@@ -43,6 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _doubleCounter() {
+    setState(() {
+      _counter *= 2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: _incrementCounter,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
+          ),
+
+          const SizedBox(width: 16), //raddoppia
+          FloatingActionButton(
+            onPressed: _doubleCounter,
+            tooltip: 'Double',
+            child: const Icon(Icons.exposure),
           ),
         ],
       ),
