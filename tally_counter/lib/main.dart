@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Tally Counter'),
     );
   }
 }
@@ -37,9 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _decrementCounter() {
+  void _halveCounter() {
     setState(() {
-      _counter--;
+      _counter ~/= 2;
+    });
+  }
+
+  void _doubleCounter() {
+    setState(() {
+      _counter *= 2;
     });
   }
 
@@ -61,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
+            const Text('Benvenuto nel nostro contatore!'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -70,18 +76,25 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton(
-            onPressed: _decrementCounter,
-            tooltip: 'Decrement',
-            child: const Icon(Icons.remove),
+            onPressed: _halveCounter,
+            tooltip: 'Halve', // dimezzare
+            child: Text('Halve'),
           ),
           const SizedBox(width: 16),
           FloatingActionButton(
             onPressed: _resetCounter,
-            tooltip: 'Reset',
+            tooltip: 'Reset', //resetta
             child: Text('Reset'),
+          ),
+
+          const SizedBox(width: 16), //raddoppia
+          FloatingActionButton(
+            onPressed: _doubleCounter,
+            tooltip: 'Double',
+            child: Text('Double'),
           ),
         ],
       ),
