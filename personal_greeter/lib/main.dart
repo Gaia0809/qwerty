@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _list = <Todo>[];
+  String _displayText = "Personalizza il tuo saluto"; //rendere questo testo una variabile
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           ElevatedButton.icon(
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
             onPressed: () {
               setState(() {
-                _list.clear();
+                _displayText = "Personalizza il tuo saluto"; //rendere questo testo una variabile
               });
             },
             label: const Text('Reset All'),
@@ -52,21 +52,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: ListView(
-          children: [
-            if (_list.isEmpty) //
-              const Text("non c'è niente"),
-            for (final todo in _list)
-              ListTile(
-                title: Text(todo.title),
-                subtitle: Text(todo.description),
-              ),
-          ],
+        child: Text(
+          _displayText,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 20),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _createTodo,
-        child: Icon(Icons.add),
+        icon: Icon(Icons.maps_ugc_outlined),
+        label: Text('Aggiungi un nuovo saluto'),
       ),
     );
   }
@@ -79,10 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
-    if (result == null) return; // significa che il dialog è stato annullato
+    if (result == null) return; // dialog annullato
 
     setState(() {
-      _list.add(result);
+      // il nuovo todo sostituisce il testo precedente
+      _displayText = "${result.title}, ${result.description}";
     });
   }
 }

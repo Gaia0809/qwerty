@@ -16,8 +16,12 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
   void initState() {
     super.initState();
     _form = FormGroup({
-      'title': FormControl<String>(validators:[RequiredValidator(), MinLengthValidator(3)] , ),
-      'description': FormControl<String>(validators: [RequiredValidator(), MinLengthValidator(20)]),
+      'title': FormControl<String>(
+        validators: [RequiredValidator(), MinLengthValidator(2)],
+      ),
+      'description': FormControl<String>(
+        validators: [RequiredValidator(), MinLengthValidator(2)],
+      ),
     });
   }
 
@@ -39,21 +43,21 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("nuovo todo!", style: theme.textTheme.headlineSmall),
-              SizedBox(height: 40),
+              Text("Nuovo todo!", style: theme.textTheme.headlineSmall),
+              const SizedBox(height: 40),
               ReactiveTextField(
                 formControlName: "title",
-                decoration: InputDecoration(hintText: "titolo..."),
-  
+                decoration: const InputDecoration(hintText: "Divinità"),
               ),
+              const SizedBox(height: 20),
               ReactiveTextField(
                 formControlName: "description",
-                decoration: InputDecoration(hintText: "descrizione..."),
+                decoration: const InputDecoration(hintText: "Aggettivo, Animale, Oggetto"),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {_submit();},
-                child: Text("salva!"),
+                onPressed: _submit,
+                child: const Text("Crea!"),
               ),
             ],
           ),
@@ -61,12 +65,13 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
       ),
     );
   }
+
   void _submit() {
     if (!_form.valid) return;
     final todo = Todo(
       createAt: DateTime.now(),
       title: _form.control("title").value,
-      description: _form.control("description").value
+      description: _form.control("description").value,
     );
 
     Navigator.pop(context, todo);
