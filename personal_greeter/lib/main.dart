@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final result = await showDialog<Personal>(
       context: context,
       builder: (context) {
-        return AddTodoFormDialog();
+        return AddFormDialog();
       },
     );
 

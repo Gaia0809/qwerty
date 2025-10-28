@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:personal_greeter/input.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class AddTodoFormDialog extends StatefulWidget {
-  const AddTodoFormDialog({super.key});
+class AddFormDialog extends StatefulWidget {
+  const AddFormDialog({super.key});
 
   @override
-  State<AddTodoFormDialog> createState() => _AddTodoFormDialogState();
+  State<AddFormDialog> createState() => _AddFormDialogState();
 }
 
-class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
+class _AddFormDialogState extends State<AddFormDialog> {
   late final FormGroup _form;
 
   @override
