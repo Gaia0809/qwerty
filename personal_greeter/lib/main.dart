@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _createTodo() async {
-    final result = await showDialog<Todo>(
+    final result = await showDialog<Personal>(
       context: context,
       builder: (context) {
         return AddTodoFormDialog();
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       // il nuovo testo sostituisce il testo precedente
-      _displayText = "${result.title}, ${result.description}";
+      _displayText = "${result.saluto}, ${result.nome}";
     });
   }
 }

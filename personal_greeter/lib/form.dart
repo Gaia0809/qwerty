@@ -16,10 +16,10 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
   void initState() {
     super.initState();
     _form = FormGroup({
-      'title': FormControl<String>(
+      'saluto': FormControl<String>(
         validators: [RequiredValidator(), MinLengthValidator(2)],
       ),
-      'description': FormControl<String>(
+      'nome': FormControl<String>(
         validators: [RequiredValidator(), MinLengthValidator(2)],
       ),
     });
@@ -46,12 +46,12 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
               Text("Nuovo saluto!", style: theme.textTheme.headlineSmall),
               const SizedBox(height: 40),
               ReactiveTextField(
-                formControlName: "title",
+                formControlName: "saluto",
                 decoration: const InputDecoration(hintText: "Aggiungi il tipo di saluto"),
               ),
               const SizedBox(height: 20),
               ReactiveTextField(
-                formControlName: "description",
+                formControlName: "nome",
                 decoration: const InputDecoration(hintText: "Aggiungi il nome da salutare"),
               ),
               const SizedBox(height: 20),
@@ -68,10 +68,10 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
 
   void _submit() {
     if (!_form.valid) return;
-    final todo = Todo(
+    final todo = Personal(
       createAt: DateTime.now(),
-      title: _form.control("title").value,
-      description: _form.control("description").value,
+      saluto: _form.control("saluto").value,
+      nome: _form.control("nome").value,
     );
 
     Navigator.pop(context, todo);

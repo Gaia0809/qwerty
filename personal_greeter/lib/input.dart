@@ -1,18 +1,18 @@
-class Todo {
-  Todo({ // serve per inizializzare le variabili create sotto
+class Personal {
+  Personal({ // serve per inizializzare le variabili create sotto
     required this.createAt,
-    required this.title,
-    required this.description, 
+    required this.saluto,
+    required this.nome, 
     this.expiresAt,
   });
-  String title;
-  String description;
+  String saluto;
+  String nome;
   DateTime createAt;
   DateTime? expiresAt;
 }
 
 void f(){
   // costruisci un todo
-  final todo = Todo(createAt: DateTime.now(), title: 'ciaooo', description: 'presentazione',  expiresAt: DateTime(2026, 01, 01));
+  final personal = Personal(createAt: DateTime.now(), saluto: 'ciaooo', nome: 'presentazione',  expiresAt: DateTime(2026, 01, 01));
   
 }
