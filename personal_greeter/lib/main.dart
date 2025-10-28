@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TODO App',
+      title: 'Esercizio 1.2',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purpleAccent),
       ),
-      home: const MyHomePage(title: 'TODO'),
+      home: const MyHomePage(title: 'Personal Greeter'),
     );
   }
 }
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (result == null) return; // dialog annullato
 
     setState(() {
-      // il nuovo todo sostituisce il testo precedente
+      // il nuovo testo sostituisce il testo precedente
       _displayText = "${result.title}, ${result.description}";
     });
   }

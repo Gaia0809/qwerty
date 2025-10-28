@@ -43,16 +43,16 @@ class _AddTodoFormDialogState extends State<AddTodoFormDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Nuovo todo!", style: theme.textTheme.headlineSmall),
+              Text("Nuovo saluto!", style: theme.textTheme.headlineSmall),
               const SizedBox(height: 40),
               ReactiveTextField(
                 formControlName: "title",
-                decoration: const InputDecoration(hintText: "Divinità"),
+                decoration: const InputDecoration(hintText: "Aggiungi il tipo di saluto"),
               ),
               const SizedBox(height: 20),
               ReactiveTextField(
                 formControlName: "description",
-                decoration: const InputDecoration(hintText: "Aggettivo, Animale, Oggetto"),
+                decoration: const InputDecoration(hintText: "Aggiungi il nome da salutare"),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
