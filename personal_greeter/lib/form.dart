@@ -57,7 +57,7 @@ class _AddFormDialogState extends State<AddFormDialog> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submit,
-                child: const Text("Crea!"),
+                child: const Text("Crea saluto"),
               ),
             ],
           ),

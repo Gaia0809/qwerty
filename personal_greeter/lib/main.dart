@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _displayText = "Personalizza il tuo saluto"; //rendere questo testo una variabile
+  String _displayText = "Crea il tuo saluto personalizzato!"; //rendere questo testo una variabile
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-        actions: [
-          ElevatedButton.icon(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                _displayText = "Personalizza il tuo saluto"; //rendere questo testo una variabile
-              });
-            },
-            label: const Text('Reset All'),
-          ),
-          const SizedBox(width: 20),
-        ],
       ),
       body: Center(
         child: Text(
@@ -58,11 +46,32 @@ class _MyHomePageState extends State<MyHomePage> {
           style: const TextStyle(fontSize: 20),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+        SizedBox(
+          width: 150,
+        child: FloatingActionButton.extended(
+         icon: const Icon(Icons.refresh),
+          onPressed: () {
+          setState(() {
+             _displayText = "Crea il tuo saluto personalizzato!"; //rendere questo testo una variabile
+           });
+          },
+            label: const Text('Cancella'),
+          ),
+          ), 
+         const SizedBox (width: 20),
+         SizedBox(
+      width: 150,
+        child: FloatingActionButton.extended(
         onPressed: _createTodo,
         icon: Icon(Icons.maps_ugc_outlined),
-        label: Text('Aggiungi un nuovo saluto'),
+        label: Text('Crea'),
       ),
+         ),
+        ]
+    )
     );
   }
 
