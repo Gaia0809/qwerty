@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _displayText = "Aggiungi nuove tasks!";
+  String _displayText = "mi piacciono le donne"; 
   final todos = <Personal>[];
 
   @override
@@ -44,41 +44,50 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            if (todos.isEmpty) 
-            Text(_displayText),
-            for (final(i, todo)in todos.indexed)
-            CheckboxListTile(
-              value: todo.isDone,
+            if (todos.isEmpty)
+              Text(
+                _displayText,
+                textAlign: TextAlign.center,
+              ),
+            for (final (i, todo) in todos.indexed)
+              CheckboxListTile(
+                value: todo.isDone,
                 title: Text(todo.task),
                 onChanged: (value) {
                   if (value == null) return;
                   setState(() {
                     todos[i].isDone = value;
                   });
-              },
-            )   
-           ]
-              
-        )
-
+                },
+              ),
+          ],
+        ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton.extended(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                _displayText = "Complimenti hai risolto tutte le tasks, ora puoi crearne di nuove";
-              });
-            },
-            label: const Text('Elimina Task'),
+          SizedBox(
+            width: 150,
+            child: FloatingActionButton.extended(
+              icon: const Icon(Icons.refresh),
+              onPressed: () {
+                setState(() {
+                  todos.clear();
+                  _displayText =
+                      "mi piacciono le donne";
+                });
+              },
+              label: const Text('Cancella'),
+            ),
           ),
           const SizedBox(width: 20),
-          FloatingActionButton.extended(
-            onPressed: _createTodo,
-            icon: const Icon(Icons.maps_ugc_outlined),
-            label: const Text('Aggiungi una nuova tasks'),
+          SizedBox(
+            width: 200,
+            child: FloatingActionButton.extended(
+              onPressed: _createTodo,
+              icon: const Icon(Icons.maps_ugc_outlined),
+              label: const Text('Aggiungi una nuova task'),
+            ),
           ),
         ],
       ),
@@ -89,14 +98,15 @@ class _MyHomePageState extends State<MyHomePage> {
     final result = await showDialog<Personal>(
       context: context,
       builder: (context) {
-        return AddFormDialog();
+        return const AddFormDialog();
       },
     );
 
-    if (result == null) return; // dialog annullato
+    if (result == null) return;
 
     setState(() {
       todos.add(result);
+      _displayText = "";
     });
   }
 }
