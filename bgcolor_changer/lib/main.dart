@@ -6,63 +6,32 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+   Color _backgroundColor = Colors.white;
+
+  bool _isYellow = true;
+
+  Brightness brightness = Brightness.light;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cambio Colore',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: brightness),
       ),
-      home: const ColorChangerPage(title: 'Cambio Colore'),
-    );
-  }
-}
-
-class ColorChangerPage extends StatefulWidget {
-  const ColorChangerPage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<ColorChangerPage> createState() => _ColorChangerPageState();
-}
-
-class _ColorChangerPageState extends State<ColorChangerPage> {
-  Color _backgroundColor = Colors.white;
-  bool _isYellow = true;
-
-  void _changeColor(Color newColor) {
-    setState(() {
-      _backgroundColor = newColor;
-    });
-  }
-
-  void _resetColor() {
-    setState(() {
-      _backgroundColor = Colors.white;
-    });
-  }
-
-  void _randomColor() {
-    setState(() {
-      _backgroundColor = RandomColor.getColorObject(
-        Options(
-          colorType: ColorType.random,
-          luminosity: Luminosity.light,
-          format: Format.rgb,
-        ),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      home: Scaffold(
       appBar: AppBar(
+
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text("inventati tu un titolo"),
       ),
 
       body: AnimatedContainer(
@@ -79,19 +48,19 @@ class _ColorChangerPageState extends State<ColorChangerPage> {
                   // button rosso
                   FloatingActionButton(
                     backgroundColor: Colors.red,
-                    onPressed: () => _changeColor(Colors.red),
+                    onPressed: () => _changeColor(Colors.redAccent),
                   ),
                   const SizedBox(width: 20),
                   // button verde
                   FloatingActionButton(
                     backgroundColor: Colors.green,
-                    onPressed: () => _changeColor(Colors.green),
+                    onPressed: () => _changeColor(Colors.greenAccent),
                   ),
                   const SizedBox(width: 20),
                   // button blu
                   FloatingActionButton(
                     backgroundColor: Colors.blue,
-                    onPressed: () => _changeColor(Colors.blue),
+                    onPressed: () => _changeColor(Colors.blueAccent),
                   ),
                 ],
               ),
@@ -151,6 +120,32 @@ class _ColorChangerPageState extends State<ColorChangerPage> {
           ),
         ],
       ),
+    )
     );
   }
+
+  void _changeColor(Color newColor) {
+    setState(() {
+      _backgroundColor = newColor;
+    });
+  }
+
+  void _resetColor() {
+    setState(() {
+      _backgroundColor = Colors.white;
+    });
+  }
+
+  void _randomColor() {
+    setState(() {
+      _backgroundColor = RandomColor.getColorObject(
+        Options(
+          colorType: ColorType.random,
+          luminosity: Luminosity.light,
+          format: Format.rgb,
+        ),
+      );
+    });
+  }
 }
+
