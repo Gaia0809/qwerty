@@ -31,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _displayText = "Aggiungi nuove tasks!";
+  final todos = <Personal>[];
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +41,26 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Text(
-          _displayText,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 20),
-        ),
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            if (todos.isEmpty) 
+            Text(_displayText),
+            for (final(i, todo)in todos.indexed)
+            CheckboxListTile(
+              value: todo.isDone,
+                title: Text(todo.task),
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    todos[i].isDone = value;
+                  });
+              },
+            )   
+           ]
+              
+        )
+
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (result == null) return; // dialog annullato
 
     setState(() {
-      _displayText = result.task;
+      todos.add(result);
     });
   }
 }
