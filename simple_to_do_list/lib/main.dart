@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simple_to_do_list/form.dart';
+import 'package:simple_to_do_list/input.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,18 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Esercizio 2.1',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purpleAccent),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'A simple To-Do List'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -29,13 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  String _displayText = "Aggiungi nuove tasks!";
 
   @override
   Widget build(BuildContext context) {
@@ -45,22 +40,47 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Text(
+          _displayText,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 20),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton.extended(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                _displayText = "Complimenti hai risolto tutte le tasks, ora puoi crearne di nuove";
+              });
+            },
+            label: const Text('Elimina Task'),
+          ),
+          const SizedBox(width: 20),
+          FloatingActionButton.extended(
+            onPressed: _createTodo,
+            icon: const Icon(Icons.maps_ugc_outlined),
+            label: const Text('Aggiungi una nuova tasks'),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> _createTodo() async {
+    final result = await showDialog<Personal>(
+      context: context,
+      builder: (context) {
+        return AddFormDialog();
+      },
+    );
+
+    if (result == null) return; // dialog annullato
+
+    setState(() {
+      _displayText = result.task;
+    });
   }
 }
