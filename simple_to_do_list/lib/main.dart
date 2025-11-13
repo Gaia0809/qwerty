@@ -31,7 +31,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _displayText = "la lista è vuota";
+  bool _filtro = false;
   final todos = <Personal>[];
+
+  List<Personal> get filteredTodos {
+    if (_filtro) {
+      return todos.where((todo) => todo.isDone).toList();
+    }else {
+      return todos;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 _displayText,
                 textAlign: TextAlign.center,
               ),
-            for (final (i, todo) in todos.indexed)
+            for (final (i, todo) in filteredTodos.indexed)
               CheckboxListTile(
                 value: todo.isDone,
-                title: Text( todo.task, //text line trought
+                title: Text( todo.task, 
                   style: TextStyle(decoration: todo.isDone ? TextDecoration.lineThrough : TextDecoration.none)),
                 onChanged: (value) {
                   if (value == null) return;
                   setState(() {
+                    final i = todos.indexOf(todo);
                     todos[i].isDone = value;
                   });
                 },
@@ -74,10 +84,25 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   todos.clear();
-                  _displayText = "hai cancellato tutto";
+                  _displayText = "Hai svuotato tutto, aggiungi una nuova task";
                 });
               },
               label: const Text('Cancella'),
+            ),
+          ),
+          const SizedBox(width: 20),
+          SizedBox(
+            width: 150,
+            child: FloatingActionButton.extended(
+              icon: Icon(_filtro ? Icons.filter_list_off : Icons.filter_list),
+              onPressed: () {
+                setState(() {
+                   _filtro = !_filtro;
+                  // todos.retainWhere((todo) => todo.isDone); 
+                  _displayText = "Hai filtrato le cose fatte della tua lista";
+                });
+              },
+              label: const Text('Filtra'),
             ),
           ),
           const SizedBox(width: 20),
@@ -86,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: FloatingActionButton.extended(
               onPressed: _createTodo,
               icon: const Icon(Icons.maps_ugc_outlined),
-              label: const Text('Aggiungi una nuova task'),
+              label: const Text('Aggiungi task'),
             ),
           ),
         ],
