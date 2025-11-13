@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _displayText = "mi piacciono le donne"; 
+  String _displayText = "la lista è vuota";
   final todos = <Personal>[];
 
   @override
@@ -52,7 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
             for (final (i, todo) in todos.indexed)
               CheckboxListTile(
                 value: todo.isDone,
-                title: Text(todo.task),
+                title: Text( todo.task, //text line trought
+                  style: TextStyle(decoration: todo.isDone ? TextDecoration.lineThrough : TextDecoration.none)),
                 onChanged: (value) {
                   if (value == null) return;
                   setState(() {
@@ -73,8 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   todos.clear();
-                  _displayText =
-                      "mi piacciono le donne";
+                  _displayText = "hai cancellato tutto";
                 });
               },
               label: const Text('Cancella'),
