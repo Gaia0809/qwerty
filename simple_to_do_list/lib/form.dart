@@ -40,7 +40,7 @@ class _AddFormDialogState extends State<AddFormDialog> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Nuovo saluto!", style: theme.textTheme.headlineSmall),
+              Text("Aggiungi una task", style: theme.textTheme.headlineSmall),
               const SizedBox(height: 40),
               ReactiveTextField(
                 formControlName: "task",

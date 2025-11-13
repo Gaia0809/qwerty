@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _displayText = "la lista è vuota";
+  String _displayText = "La lista è vuota , aggiungi una task!";
   bool _filtro = false;
   final todos = <Personal>[];
 
@@ -54,10 +54,18 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.all(20),
           children: [
             if (todos.isEmpty)
-              Text(
-                _displayText,
-                textAlign: TextAlign.center,
+             Center(
+              child:Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child:Text(
+                  _displayText,
+                  style: TextStyle (
+                    fontSize:25,                  
+                    ),
+                  textAlign: TextAlign.center,              
+                  ),
               ),
+                ),
             for (final (i, todo) in filteredTodos.indexed)
               CheckboxListTile(
                 value: todo.isDone,
@@ -84,10 +92,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   todos.clear();
-                  _displayText = "Hai svuotato tutto, aggiungi una nuova task";
+                  _displayText = "Hai cancellato tutte le task, aggiungine di nuove!";
                 });
               },
-              label: const Text('Cancella'),
+              label: const Text('Cancella Task'),
             ),
           ),
           const SizedBox(width: 20),
@@ -99,19 +107,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                    _filtro = !_filtro;
                   // todos.retainWhere((todo) => todo.isDone); 
-                  _displayText = "Hai filtrato le cose fatte della tua lista";
+                  _displayText = "Hai filtrato le task , se è vuota non hai task completate!";
                 });
               },
-              label: const Text('Filtra'),
+              label: const Text('Filtra Task'),
             ),
           ),
           const SizedBox(width: 20),
           SizedBox(
-            width: 200,
+            width: 150,
             child: FloatingActionButton.extended(
               onPressed: _createTodo,
               icon: const Icon(Icons.maps_ugc_outlined),
-              label: const Text('Aggiungi task'),
+              label: const Text('Aggiungi Task'),
             ),
           ),
         ],
