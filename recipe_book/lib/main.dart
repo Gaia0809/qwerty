@@ -7,28 +7,41 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
   final List<Ricetta> ricette = [
+
     Ricetta(
-      titolo: 'Pasta al Pomodoro',
-      ingredienti: ['- Pasta', '- Pomodoro', '- Olio', '- Sale', '- Basilico'],
+      titolo: 'Frullato alla Banana',
+      ingredienti: ['- Banana', '- Latte', '- Yogurt bianco', '- Miele', '- Ghiaccio'],
       passaggi: [
-        '- Cuoci la pasta',
-        '- Prepara il sugo con pomodoro e basilico',
-        '- Mescola pasta e sugo',
-        '- Servi caldo'
+        '- Taglia a pezzi la banana',
+        '- Metti banana, latte, yogurt e miele nel frullatore',
+        '- Aggiungi il ghiaccio',
+        '- Frulla a piacimento'
       ],
-      url: 'https://www.google.com/search?q=Pasta+al+Pomodoro',
+      url: 'https://www.google.com',
     ),
     Ricetta(
-      titolo: 'Tiramisu',
-      ingredienti: ['- Mascarpone', '- Uova', '- Zucchero', '- Caffe', '- Savoiardi'],
+      titolo: 'Mojito',
+      ingredienti: ['- Rum bianco', '- Menta fresca', '- Zucchero', '- Lime', '- Soda'],
       passaggi: [
-        '- Prepara il caffè',
-        '- Mescola mascarpone, uova e zucchero',
-        '- Fai strati con savoiardi e crema',
-        '- Metti in frigo per 4 ore'
+        '- Mescolare zucchero e lime e aggiungere la menta',
+        '- Aggiungere rum e mescolare bene',
+        '- Riempire il bicchiere di ghiaccio (pilè)',
+        '- Top di soda'
       ],
-      url: 'https://www.google.com/search?q=Tiramisu',
+      url: 'https://www.google.com/',
+    ),
+    Ricetta(
+      titolo: 'Minestra di Verdure',
+      ingredienti: ['- Carote', '- Patate', '- Zucchine', '- Cipolla', '- Brodo vegetale'],
+      passaggi: [
+        '- Taglia tutte le verdure a pezzi',
+        '- Rosola la cipolla in una pentola con un filo olio',
+        '- Aggiungi le altre verdure e copri con il brodo',
+        '- Cuoci finché le verdure sono morbide'
+      ],
+      url: 'https://www.google.com/',
     ),
   ];
 
@@ -54,7 +67,7 @@ class MyApp extends StatelessWidget {
                   builder: (context) {
                     return Dialog(
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(16),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,8 +114,8 @@ class MyApp extends StatelessWidget {
     );
   }
 
-void _apriLink(String url) async {
-  final Uri uri = Uri.parse(url);
-  await launchUrl(uri, mode: LaunchMode.externalApplication);
-}
+  void _apriLink(String url) async {
+    final Uri uri = Uri.parse(url);
+    await launchUrl(uri);
+  }
 }
