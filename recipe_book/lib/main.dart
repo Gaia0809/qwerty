@@ -23,10 +23,11 @@ class MyApp extends StatelessWidget {
     ),
     Ricetta(
       titolo: 'Mojito',
-      ingredienti: ['- Rum bianco', '- Menta fresca', '- Zucchero', '- Lime', '- Soda'],
+      ingredienti: ['- Rum bianco', '- Menta fresca', '- Zucchero', '- Lime', '- Soda','- Ghiaccio'],
       passaggi: [
         '- Mescolare zucchero e lime e aggiungere la menta',
         '- Aggiungere rum e mescolare bene',
+        '- Trita il ghiaccio',
         '- Riempire il bicchiere di ghiaccio (pilè)',
         '- Top di soda'
       ],
@@ -40,6 +41,16 @@ class MyApp extends StatelessWidget {
         '- Rosola la cipolla in una pentola con un filo olio',
         '- Aggiungi le altre verdure e copri con il brodo',
         '- Cuoci finché le verdure sono morbide'
+      ],
+      url: 'https://www.google.com/',
+    ),
+    Ricetta(
+      titolo: 'Insalata Caprese',
+      ingredienti: ['- Mozzarelle di bufala', '- Pomodori', '- Basilico fresco','- Olio', '- Origano', '- Sale'],
+      passaggi: [
+        '- Taglia la mozzarella e i pomodori a fette',
+        '- Disponi le fette alternate su un piatto',
+        '- Condisci con sale, origano e un filo d\'olio',
       ],
       url: 'https://www.google.com/',
     ),
@@ -81,17 +92,10 @@ class MyApp extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                             Text('Ingredienti:'),
-                            Text(ricetta.ingredienti[0]),
-                            Text(ricetta.ingredienti[1]),
-                            Text(ricetta.ingredienti[2]),
-                            Text(ricetta.ingredienti[3]),
-                            Text(ricetta.ingredienti[4]),
+                            ...ricetta.ingredienti.map((ingrediente) => Text(ingrediente)).toList(),
                             SizedBox(height: 10),
                             Text('Passaggi:'),
-                            Text(ricetta.passaggi[0]),
-                            Text(ricetta.passaggi[1]),
-                            Text(ricetta.passaggi[2]),
-                            Text(ricetta.passaggi[3]),
+                            ...ricetta.passaggi.map((passaggio) => Text(passaggio)).toList(),
                             SizedBox(height: 20),
                             Align(
                               alignment: Alignment.centerRight,
