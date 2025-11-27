@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
-import 'contatti.dart';
+import 'models/contatti.dart';
 
 void main() {
   runApp(MyApp());
@@ -107,7 +107,7 @@ class MyApp extends StatelessWidget {
 
   void _condividi(Persona persona) {
     Share.share(
-      'Contatto: ${persona.nome} ${persona.cognome}',
+      'Contatto: ${persona.nome} ${persona.cognome} ${persona.telefoni}',
     );
   }
 
