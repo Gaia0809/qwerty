@@ -2,129 +2,163 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'models/contatti.dart';
+import 'form.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final List<Persona> contatti = [
-    Persona(nome: 'Nome', cognome: 'Cognome', telefoni: ['123 456 7890', '123 456 7890']),
-    Persona(nome: 'Nome', cognome: 'Cognome', telefoni: ['123 456 7890']),
-    Persona(nome: 'Nome', cognome: 'Cognome', telefoni: ['123 456 7890', '123 456 7890']),
-  ];
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Contatti',
-      home: Scaffold(
-        appBar: AppBar(title: Text('Contatti')),
-        body: Stack(
-          children: [
-            ListView.builder(
-              itemCount: contatti.length,
+      title: 'Lista Contatti',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purpleAccent),
+      ),
+      home: const MyHomePage(title: 'I Miei Contatti'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Persona> listaContatti = []; 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: listaContatti.isEmpty
+          ? const Center(
+              child: Text(
+                "Nessun contatto, aggiungine uno",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              ),
+            )
+          : ListView.builder(
+              itemCount: listaContatti.length,
               itemBuilder: (context, index) {
-                final persona = contatti[index];
+                final persona = listaContatti[index];
+
                 return ListTile(
                   title: Text('${persona.nome} ${persona.cognome}'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.share),
+                        icon: const Icon(Icons.share),
                         onPressed: () {
-                          _condividi(persona);
+                        _condividiContatto(persona);
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                         onPressed: () {
-                          _modifica(persona);
+                          _modificaContatto(index);
                         },
                       ),
                     ],
                   ),
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        List<Widget> listaTelefoni = [];
-                        for (int i = 0; i < persona.telefoni.length; i++) {
-                          String numero = persona.telefoni[i];
-                          listaTelefoni.add(
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(numero),
-                                IconButton(
-                                  icon: Icon(Icons.call),
-                                  onPressed: () {
-                                    _chiama(numero);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-
-                        return Dialog(
-                          child: Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${persona.nome} ${persona.cognome}',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 12),
-                                Column(
-                                  children: listaTelefoni,
-                                ),
-                                SizedBox(height: 16),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    _mostraDettaglio(persona);
                   },
                 );
               },
             ),
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                },
-                icon: Icon(Icons.add),
-                label: Text('Aggiungi un contatto'),
-              ),
-            ),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _creaContatto,
+        child: const Icon(Icons.add),
       ),
     );
   }
 
-  void _chiama(String numero) async {
-    final Uri uri = Uri(scheme: 'tel', path: numero);
-    await launchUrl(uri);
+  Future<void> _creaContatto() async {
+    final result = await showDialog<Persona>(
+      context: context,
+      builder: (context) {
+        return const FormContattoDialog();
+      },
+    );
+
+    if (result == null) return; 
+
+    setState(() {
+      listaContatti.add(result);
+    });
   }
 
-  void _condividi(Persona persona) {
+  Future<void> _modificaContatto(int indice) async {
+    final personaDaModificare = listaContatti[indice];
+
+    final result = await showDialog<Persona>(
+      context: context,
+      builder: (context) {
+        return FormContattoDialog(contattoDaModificare: personaDaModificare);
+      },
+    );
+
+    if (result == null) return;
+
+    setState(() {
+      listaContatti[indice] = result;
+    });
+  }
+
+  void _condividiContatto(Persona persona) {
     Share.share(
-      'Contatto: ${persona.nome} ${persona.cognome} ${persona.telefoni}',
+      'Nome: ${persona.nome}\n'
+      'Cognome: ${persona.cognome}\n'
+      'Telefono: ${persona.telefoni}',
     );
   }
 
-  void _modifica(Persona persona) {
-    
+
+  void _mostraDettaglio(Persona persona) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('${persona.nome} ${persona.cognome}'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: persona.telefoni.map((numero) {
+              return ListTile(
+                title: Text(numero),
+                trailing: IconButton(
+                  icon: const Icon(Icons.call),
+                  onPressed: () => _chiamaNumero(numero),
+                ),
+              );
+            }).toList(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Chiudi"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _chiamaNumero(String numero) async {
+    final Uri uri = Uri.parse('tel:$numero');
+    await launchUrl(uri);
   }
 }

@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
-import 'models/contatti.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'models/contatti.dart';
 
-class AddFormDialog extends StatefulWidget {
-  const AddFormDialog({super.key});
+class FormContattoDialog extends StatefulWidget {
+  final Persona? contattoDaModificare;
+
+  const FormContattoDialog({super.key, this.contattoDaModificare});
 
   @override
-  State<AddFormDialog> createState() => _AddFormDialogState();
+  State<FormContattoDialog> createState() => _FormContattoDialogState();
 }
 
-class _AddFormDialogState extends State<AddFormDialog> {
+class _FormContattoDialogState extends State<FormContattoDialog> {
   late final FormGroup _form;
 
   @override
   void initState() {
     super.initState();
+
+    String telefonoIniziale = "";
+    if (widget.contattoDaModificare != null) {
+      if (widget.contattoDaModificare!.telefoni.isNotEmpty) {
+        telefonoIniziale = widget.contattoDaModificare!.telefoni.first;
+      }
+    }
+
     _form = FormGroup({
-      'contatto': FormControl<String>(
+      'nome': FormControl<String>(
+        value: widget.contattoDaModificare?.nome,
         validators: [RequiredValidator(), MinLengthValidator(2)],
+      ),
+      'cognome': FormControl<String>(
+        value: widget.contattoDaModificare?.cognome,
+        validators: [RequiredValidator(), MinLengthValidator(2)],
+      ),
+      'telefono': FormControl<String>(
+        value: telefonoIniziale,
+        validators: [RequiredValidator(), MinLengthValidator(2)], 
       ),
     });
   }
@@ -39,17 +58,36 @@ class _AddFormDialogState extends State<AddFormDialog> {
           formGroup: _form,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Aggiungi contatto", style: theme.textTheme.headlineSmall),
+              Text(
+                widget.contattoDaModificare == null ? "Nuovo contatto" : "Modifica contatto", 
+                style: theme.textTheme.headlineSmall
+              ),
               const SizedBox(height: 40),
+              
               ReactiveTextField(
-                formControlName: "Contatto",
-                decoration: const InputDecoration(hintText: "Inserisci un nuovo contatto"),
+                formControlName: "Nome",
+                decoration: const InputDecoration(hintText: "Nome"),
               ),
               const SizedBox(height: 20),
+              
+              ReactiveTextField(
+                formControlName: "Cognome",
+                decoration: const InputDecoration(hintText: "Cognome"),
+              ),
+              const SizedBox(height: 20),
+
+              ReactiveTextField(
+                formControlName: "Telefono",
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(hintText: "Numero telefono"),
+              ),
+              const SizedBox(height: 20),
+
               ElevatedButton(
                 onPressed: _submit,
-                child: const Text("Crea contatto"),
+                child: const Text("Salva"),
               ),
             ],
           ),
@@ -60,12 +98,13 @@ class _AddFormDialogState extends State<AddFormDialog> {
 
   void _submit() {
     if (!_form.valid) return;
-    final todo = Persona(
+
+    final contatto = Persona(
       nome: _form.control("nome").value,
       cognome: _form.control("cognome").value,
-      telefoni: _form.control("telefoni").value,
+      telefoni: [_form.control("telefono").value],
     );
 
-    Navigator.pop(context, todo);
+    Navigator.pop(context, contatto);
   }
 }
