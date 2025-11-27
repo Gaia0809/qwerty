@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'contatti.dart';
+import 'models/contatti.dart';
 
 void main() {
   runApp(MyApp());
