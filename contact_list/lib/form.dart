@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'models/contatti.dart';
 
 class FormContattoDialog extends StatefulWidget {
@@ -12,39 +11,50 @@ class FormContattoDialog extends StatefulWidget {
 }
 
 class _FormContattoDialogState extends State<FormContattoDialog> {
-  late final FormGroup _form;
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _nomeController;
+  late final TextEditingController _cognomeController;
+  late final TextEditingController _telefonoController;
 
   @override
   void initState() {
     super.initState();
 
-    String telefonoIniziale = "";
-    if (widget.contattoDaModificare != null) {
-      if (widget.contattoDaModificare!.telefoni.isNotEmpty) {
-        telefonoIniziale = widget.contattoDaModificare!.telefoni.first;
-      }
-    }
+    final persona = widget.contattoDaModificare;
 
-    _form = FormGroup({
-      'nome': FormControl<String>(
-        value: widget.contattoDaModificare?.nome,
-        validators: [RequiredValidator(), MinLengthValidator(2)],
-      ),
-      'cognome': FormControl<String>(
-        value: widget.contattoDaModificare?.cognome,
-        validators: [RequiredValidator(), MinLengthValidator(2)],
-      ),
-      'telefono': FormControl<String>(
-        value: telefonoIniziale,
-        validators: [RequiredValidator(), MinLengthValidator(2)],
-      ),
-    });
+    _nomeController = TextEditingController(text: persona?.nome);
+    _cognomeController = TextEditingController(text: persona?.cognome);
+
+    String telefonoIniziale = "";
+    if (persona != null && persona.telefoni.isNotEmpty) {
+      telefonoIniziale = persona.telefoni.first;
+    }
+    _telefonoController = TextEditingController(text: telefonoIniziale);
   }
 
   @override
   void dispose() {
-    _form.dispose();
+    _nomeController.dispose();
+    _cognomeController.dispose();
+    _telefonoController.dispose();
     super.dispose();
+  }
+
+  void _submit() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      return;
+    }
+
+    final contatto = Persona(
+      nome: _nomeController.text,
+      cognome: _cognomeController.text,
+      telefoni: [_telefonoController.text],
+    );
+
+    Navigator.pop(context, contatto);
   }
 
   @override
@@ -54,34 +64,59 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: ReactiveForm(
-          formGroup: _form,
+        child: Form(
+          key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.contattoDaModificare == null ? "Nuovo contatto" : "Modifica contatto",
-                style: theme.textTheme.headlineSmall
+                widget.contattoDaModificare == null
+                    ? "Nuovo contatto"
+                    : "Modifica contatto",
+                style: theme.textTheme.headlineSmall,
               ),
               const SizedBox(height: 40),
-              
-              ReactiveTextField(
-                formControlName: "nome",
+
+              TextFormField(
+                controller: _nomeController,
                 decoration: const InputDecoration(hintText: "Nome"),
-              ),
-              const SizedBox(height: 20),
-              
-              ReactiveTextField(
-                formControlName: "cognome",
-                decoration: const InputDecoration(hintText: "Cognome"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Il nome è obbligatorio";
+                  }
+                  if (value.length < 2) {
+                    return "Almeno 2 caratteri";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
 
-              ReactiveTextField(
-                formControlName: "telefono",
+              TextFormField(
+                controller: _cognomeController,
+                decoration: const InputDecoration(hintText: "Cognome"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Il cognome è obbligatorio";
+                  }
+                  if (value.length < 2) {
+                    return "Almeno 2 caratteri";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+
+              TextFormField(
+                controller: _telefonoController,
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(hintText: "Numero telefono"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Il telefono è obbligatorio";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
 
@@ -94,17 +129,5 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
         ),
       ),
     );
-  }
-
-  void _submit() {
-    if (!_form.valid) return;
-
-    final contatto = Persona(
-      nome: _form.control("nome").value,
-      cognome: _form.control("cognome").value,
-      telefoni: [_form.control("telefono").value],
-    );
-
-    Navigator.pop(context, contatto);
   }
 }

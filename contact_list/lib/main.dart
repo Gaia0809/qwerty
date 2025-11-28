@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'models/contatti.dart';
 import 'form.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -30,9 +28,8 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage> {
-  List<Persona> listaContatti = []; 
+  List<Persona> listaContatti = [];
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       IconButton(
                         icon: const Icon(Icons.share),
                         onPressed: () {
-                        _condividiContatto(persona);
+                          _condividiContatto(persona);
                         },
                       ),
                       IconButton(
@@ -93,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
-    if (result == null) return; 
+    if (result == null) return;
 
     setState(() {
       listaContatti.add(result);
@@ -121,10 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
     Share.share(
       'Nome: ${persona.nome}\n'
       'Cognome: ${persona.cognome}\n'
-      'Telefono: ${persona.telefoni}',
+      'Telefono: ${persona.telefoni.join(", ")}',
     );
   }
-
 
   void _mostraDettaglio(Persona persona) {
     showDialog(
