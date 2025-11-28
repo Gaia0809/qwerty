@@ -36,7 +36,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
       ),
       'telefono': FormControl<String>(
         value: telefonoIniziale,
-        validators: [RequiredValidator(), MinLengthValidator(2)], 
+        validators: [RequiredValidator(), MinLengthValidator(2)],
       ),
     });
   }
@@ -61,25 +61,25 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.contattoDaModificare == null ? "Nuovo contatto" : "Modifica contatto", 
+                widget.contattoDaModificare == null ? "Nuovo contatto" : "Modifica contatto",
                 style: theme.textTheme.headlineSmall
               ),
               const SizedBox(height: 40),
               
               ReactiveTextField(
-                formControlName: "Nome",
+                formControlName: "nome",
                 decoration: const InputDecoration(hintText: "Nome"),
               ),
               const SizedBox(height: 20),
               
               ReactiveTextField(
-                formControlName: "Cognome",
+                formControlName: "cognome",
                 decoration: const InputDecoration(hintText: "Cognome"),
               ),
               const SizedBox(height: 20),
 
               ReactiveTextField(
-                formControlName: "Telefono",
+                formControlName: "telefono",
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(hintText: "Numero telefono"),
               ),
