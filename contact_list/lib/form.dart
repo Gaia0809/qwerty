@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'models/contatti.dart';
 
 class FormContattoDialog extends StatefulWidget {
+  
   final Persona? contattoDaModificare;
 
   const FormContattoDialog({super.key, this.contattoDaModificare});
@@ -11,6 +12,7 @@ class FormContattoDialog extends StatefulWidget {
 }
 
 class _FormContattoDialogState extends State<FormContattoDialog> {
+
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _nomeController;
@@ -23,6 +25,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
 
     final persona = widget.contattoDaModificare;
 
+    //riempimento del form se la persona esiste già
     _nomeController = TextEditingController(text: persona?.nome);
     _cognomeController = TextEditingController(text: persona?.cognome);
 
@@ -47,7 +50,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
     if (!isValid) {
       return;
     }
-
+//creao la persona
     final contatto = Persona(
       nome: _nomeController.text,
       cognome: _cognomeController.text,
@@ -59,6 +62,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
 
   @override
   Widget build(BuildContext context) {
+    //attentooo
     final theme = Theme.of(context);
 
     return Dialog(
@@ -66,14 +70,14 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+            child: Column( 
+            mainAxisSize: MainAxisSize.min, 
+            
             children: [
-              Text(
+                Text(
                 widget.contattoDaModificare == null
                     ? "Nuovo contatto"
                     : "Modifica contatto",
-                style: theme.textTheme.headlineSmall,
               ),
               const SizedBox(height: 40),
 
@@ -90,6 +94,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
                   return null;
                 },
               ),
+              
               const SizedBox(height: 20),
 
               TextFormField(
@@ -105,6 +110,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
                   return null;
                 },
               ),
+              
               const SizedBox(height: 20),
 
               TextFormField(
@@ -118,6 +124,7 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
                   return null;
                 },
               ),
+              
               const SizedBox(height: 20),
 
               ElevatedButton(
