@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'models/contatti.dart';
 import 'form.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -28,11 +30,46 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-class _MyHomePageState extends State<MyHomePage> {
-  List<Persona> listaContatti = [];
 
+class _MyHomePageState extends State<MyHomePage> {
+  List<Persona> listaContatti = [
+    Persona(nome: 'Pippo', cognome: 'Qualcosa', telefoni: ['345 179 8967']),
+    Persona(nome: 'Thomas', cognome: 'Ehehe', telefoni: ['123 456 7890', '123 456 7890'])
+  ];
   @override
   Widget build(BuildContext context) {
+    List<Widget> righeDellaLista = [];
+
+    for (int index = 0; index < listaContatti.length; index++) {
+      final persona = listaContatti[index];
+
+      final rigaContatto = ListTile(
+        title: Text('${persona.nome} ${persona.cognome}'),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () {
+                _condividiContatto(persona);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                _modificaContatto(index);
+              },
+            ),
+          ],
+        ),
+        onTap: () {
+          _mostraDettaglio(persona);
+        },
+      );
+
+      righeDellaLista.add(rigaContatto);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -45,35 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 20),
               ),
             )
-          : ListView.builder(
-              itemCount: listaContatti.length,
-              itemBuilder: (context, index) {
-                final persona = listaContatti[index];
-
-                return ListTile(
-                  title: Text('${persona.nome} ${persona.cognome}'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.share),
-                        onPressed: () {
-                          _condividiContatto(persona);
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          _modificaContatto(index);
-                        },
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    _mostraDettaglio(persona);
-                  },
-                );
-              },
+          : 
+            ListView(
+              children: righeDellaLista,
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _creaContatto,
@@ -81,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
   Future<void> _creaContatto() async {
     final result = await showDialog<Persona>(
       context: context,
@@ -118,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Share.share(
       'Nome: ${persona.nome}\n'
       'Cognome: ${persona.cognome}\n'
-      'Telefono: ${persona.telefoni.join(", ")}',
+      'Telefono: ${persona.telefoni}',
     );
   }
 
