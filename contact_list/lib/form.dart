@@ -22,14 +22,14 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
 
     String nomeIniziale = "";
     String cognomeIniziale = "";
-    String telefonoIniziale = "";
+    List<String> telefonoIniziale = [""];
 
     if (persona != null) {
       nomeIniziale = persona.nome;
       cognomeIniziale = persona.cognome;
       
       if (persona.telefoni.isNotEmpty) {
-        telefonoIniziale = persona.telefoni.first;
+        telefonoIniziale = persona.telefoni;
       }
     }
 
@@ -42,9 +42,11 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
         value: cognomeIniziale,
         validators: [Validators.required, Validators.minLength(2)],
       ),
-      'telefono': FormControl<String>(
-        value: telefonoIniziale,
-        validators: [Validators.required, Validators.minLength(2)]
+      'telefoni': FormArray( // formControl<String> gestisce un singolo elemento mentre FormArray gestisce una lista di valori
+        telefonoIniziale.map((tel) => FormControl<String>(
+          value: tel,
+          validators: [Validators.required, Validators.minLength(2)],
+        )).toList(),
       ),
     });
   }
@@ -58,10 +60,16 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
   void _submit() {
     if (!_form.valid) return; 
 
+    final telefonoArray = _form.control('telefoni') as FormArray;
+    final telefoni = telefonoArray.controls
+      .map((control) => control.value as String)
+      .where((tel) => tel.isNotEmpty)
+      .toList();
+
     final contatto = Persona(
       nome: _form.control('nome').value,
       cognome: _form.control('cognome').value,
-      telefoni: [_form.control('telefono').value],
+      telefoni: telefoni,
     );
 
     Navigator.pop(context, contatto);
@@ -94,12 +102,41 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
                 formControlName: 'cognome',
                 decoration: InputDecoration( hintText: "Cognome",),
               ),
-              ReactiveTextField(
-                formControlName: 'telefono',
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration( hintText: "Numero telefono",),
+              ReactiveFormArray(
+                formArrayName: 'telefoni',
+                builder: (context, formArray, child) {
+                  return Column(
+                    children: [
+                      ...List.generate(formArray.controls.length, (index) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: ReactiveTextField(
+                                formControlName: index.toString(),
+                                keyboardType: TextInputType.phone,
+                                decoration: InputDecoration(
+                                  hintText: "Telefono ${index + 1}",
+                                ),
+                              ),
+                            ),
+                            if (formArray.controls.length > 1)
+                              IconButton(
+                                icon: Icon(Icons.remove_circle),
+                                onPressed: () => _rimuoviTelefono(index),
+                              ),
+                          ],
+                        );
+                      }),
+                      ElevatedButton.icon(
+                        onPressed: _aggiungiTelefono,
+                        icon: Icon(Icons.add),
+                        label: Text("Aggiungi numero"),
+                      ),
+                    ],
+                  );
+                },
               ),
-
+              SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submit,
                 child: const Text("Salva"),
@@ -110,4 +147,20 @@ class _FormContattoDialogState extends State<FormContattoDialog> {
       ),
     );
   }
+
+  void _aggiungiTelefono() {
+    final telefonoArray = _form.control('telefoni') as FormArray;
+    telefonoArray.add(FormControl<String>(
+      validators: [Validators.required, Validators.minLength(2)],
+    ));
+    setState(() {});
+  }
+
+  void _rimuoviTelefono(int index) {
+  final telefonoArray = _form.control('telefoni') as FormArray;
+  if (telefonoArray.controls.length > 1) {  // Non rimuovere se è l'unico
+    telefonoArray.removeAt(index);
+    setState(() {});
+  }
+}
 }
