@@ -60,6 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 _modificaContatto(index);
               },
             ),
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                _eliminaContatto(index);
+              },
+            ),
           ],
         ),
         onTap: () {
@@ -166,5 +172,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _chiamaNumero(String numero) async {
     final Uri uri = Uri.parse('tel:$numero');
     await launchUrl(uri);
+  }
+
+  void _eliminaContatto(int indice) {
+    setState(() {
+      listaContatti.removeAt(indice);
+    });
   }
 }
