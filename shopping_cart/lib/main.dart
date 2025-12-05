@@ -5,7 +5,7 @@ import 'package:shopping_cart/models/models.dart';
 
 void main() {
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: MyApp(),
     ),
   );
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final itemProvider = Provider<List<Product>>((ref) {
+final productsProvider = Provider<List<Product>>((ref) {
   return [
     Product(id: '1', title: 'Apple', price: 0.99),
     Product(id: '2', title: 'Banana', price: 0.59),
@@ -40,29 +40,28 @@ class CartNotifier extends Notifier<List<CartItem>> {
   @override
   List<CartItem> build() => [];
 
-    void addProduct(Product product) {
-      final index = state.indexWhere((item) => item.product.id == product.id);
-      if (index >=0) {
-        final updatedItem = [...state];
-        updatedItem[index].quantity++;
-        state = updatedItem;
-      } else {
-        state = [...state, CartItem(product: product)];
+  void addProduct(Product product) {
+    for (var item in state) {
+      if (item.product.id == product.id) {
+        incrementItem(item);
+        return;
       }
     }
+    state = state + [CartItem(product: product)];
+  }
 
-    void incrementItem(CartItem item) {
-      item.quantity++;
-      state = [...state];
-    }
+  void incrementItem(CartItem item) {
+    item.quantity++;
+    state = state.toList();
+  }
 
-    void decrementItem(CartItem item) {
-      if (item.quantity > 1) {
-        item.quantity--;
-        state = [...state];
-      }else{
-        state = state.where((i) => i.product.id != item.product.id).toList();
-        }
-      }
+  void decrementItem(CartItem item) {
+    item.quantity--;
+    if (item.quantity == 0) {
+      state.remove(item);
     }
+    state = state.toList();
+  }
+}
+
 final cartProvider = NotifierProvider<CartNotifier, List<CartItem>>(CartNotifier.new);

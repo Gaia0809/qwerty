@@ -7,36 +7,49 @@ class ProductListScreen extends ConsumerWidget {
   const ProductListScreen({super.key});
 
   @override
-Widget build(BuildContext context, WidgetRef ref) {
-    final products = ref.watch(itemProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final products = ref.watch(productsProvider);
     final cartItems = ref.watch(cartProvider);
+
+    int totalItems = 0;
+    for (var item in cartItems) {
+      totalItems += item.quantity;
+    }
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text("Prodotti"),
+        title: const Text("Prodotti"),
         actions: [
+          Center(
+            child: Text(
+              totalItems.toString(),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               context.go('/cart');
             },
           ),
         ],
       ),
-      body: ListView(
-        children:[
-
-        for (final product in products)
-          ListTile(
-            title:Text(product.title),
-            subtitle:Text("€ ${product.price.toStringAsFixed(2)}"),
+      body: ListView.builder(
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final product = products[index];
+          return ListTile(
+            title: Text(product.title),
+            subtitle: Text(product.price.toString()),
             trailing: IconButton(
-              icon: Icon(Icons.add_shopping_cart),
+              icon: const Icon(Icons.add_shopping_cart),
               onPressed: () {
                 ref.read(cartProvider.notifier).addProduct(product);
               },
             ),
-          )],
-      )
+          );
+        },
+      ),
     );
   }
 }

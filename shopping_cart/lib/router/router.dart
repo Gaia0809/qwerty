@@ -6,7 +6,6 @@ import 'package:shopping_cart/pages/cart.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/product',
   routes: <RouteBase>[
-    
     GoRoute(
       path: '/product',
       builder: (BuildContext context, GoRouterState state) {

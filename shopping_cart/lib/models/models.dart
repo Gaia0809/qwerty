@@ -16,5 +16,6 @@ class CartItem {
 
   CartItem({
     required this.product, 
-    this.quantity = 1});
+    this.quantity = 1
+  });
 }
