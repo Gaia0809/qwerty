@@ -28,11 +28,11 @@ class MyApp extends StatelessWidget {
 
 final productsProvider = Provider<List<Product>>((ref) {
   return [
-    Product(id: '1', title: 'Apple', price: 0.99),
-    Product(id: '2', title: 'Banana', price: 0.59),
-    Product(id: '3', title: 'Orange', price: 0.79),
-    Product(id: '4', title: 'Grapes', price: 2.99),
-    Product(id: '5', title: 'Mango', price: 1.49),
+    Product(id: '1', title: 'Apple', price: 1.50),
+    Product(id: '2', title: 'Pasta', price: 2.00),
+    Product(id: '3', title: 'Bread', price: 1.00),
+    Product(id: '4', title: 'Eggs', price: 5.20),
+    Product(id: '5', title: 'Milk', price: 3.60),
   ];
 });
 

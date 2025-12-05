@@ -34,11 +34,10 @@ class ProductListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return ListTile(
+      body: ListView(
+        children: [
+          for (var product in products)
+           ListTile(
             title: Text(product.title),
             subtitle: Text(product.price.toString()),
             trailing: IconButton(
@@ -47,9 +46,9 @@ class ProductListScreen extends ConsumerWidget {
                 ref.read(cartProvider.notifier).addProduct(product);
               },
             ),
-          );
-        },
-      ),
+          ),
+        ]
+      )
     );
   }
 }

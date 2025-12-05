@@ -29,11 +29,10 @@ class CartScreen extends ConsumerWidget {
             },
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                final item = cartItems[index];
-                return ListTile(
+            child: ListView(
+              children:[
+                for (var item in cartItems)
+                ListTile(
                   title: Text(item.product.title),
                   subtitle: Text(item.product.price.toString()),
                   trailing: Row(
@@ -57,8 +56,8 @@ class CartScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
           Padding(
