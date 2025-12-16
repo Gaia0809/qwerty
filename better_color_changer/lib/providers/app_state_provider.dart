@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// 1. Stato
 class AppState {
   final Color backgroundColor;
   final bool isDarkMode;
@@ -17,12 +16,10 @@ class AppState {
   }
 }
 
-// 2. Notifier (Nota: Usiamo 'Notifier', NON 'StateNotifier')
 class AppStateNotifier extends Notifier<AppState> {
   
   @override
   AppState build() {
-    // Stato iniziale
     return AppState(backgroundColor: Colors.white, isDarkMode: false);
   }
 
@@ -32,18 +29,11 @@ class AppStateNotifier extends Notifier<AppState> {
 
   void setRandomColor() {
     final random = Random();
-    final double hue = random.nextDouble() * 360;
-    final double saturation = 0.5 + (random.nextDouble() * 0.5);
+    final r = random.nextInt(256);
+    final g = random.nextInt(256);
+    final b = random.nextInt(256);
     
-    double lightness;
-    if (state.isDarkMode) {
-       lightness = 0.6 + (random.nextDouble() * 0.3); 
-    } else {
-       lightness = 0.2 + (random.nextDouble() * 0.6);
-    }
-
-    final color = HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
-    state = state.copyWith(backgroundColor: color);
+    state = state.copyWith(backgroundColor: Color.fromARGB(255, r, g, b));
   }
 
   void toggleTheme(int index) {
@@ -59,7 +49,6 @@ class AppStateNotifier extends Notifier<AppState> {
   }
 }
 
-// 3. Provider (Nota: Usiamo 'NotifierProvider')
 final appStateProvider = NotifierProvider<AppStateNotifier, AppState>(() {
   return AppStateNotifier();
 });
