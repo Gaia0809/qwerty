@@ -29,6 +29,7 @@ class AppStateNotifier extends Notifier<AppState> {
 
   void setRandomColor() {
     final random = Random();
+<<<<<<< HEAD
     final color = Color.fromRGBO(
       random.nextInt(256),
       random.nextInt(256),
@@ -36,6 +37,13 @@ class AppStateNotifier extends Notifier<AppState> {
       1,
     );
     state = state.copyWith(backgroundColor: color);
+=======
+    final r = random.nextInt(256);
+    final g = random.nextInt(256);
+    final b = random.nextInt(256);
+    
+    state = state.copyWith(backgroundColor: Color.fromARGB(255, r, g, b));
+>>>>>>> 7907d237befb2bb90aa19b4d33c5de33754d2e29
   }
 
   void setDarkMode(bool enabled) {
