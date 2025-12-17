@@ -33,7 +33,6 @@ class SettingsPage extends ConsumerWidget {
               
               SwitchListTile(
                 title: const Text("Dark Mode"),
-                subtitle: const Text("Enable dark theme for the entire app"),
                 secondary: Icon(appState.isDarkMode ? Icons.dark_mode : Icons.light_mode),
                 value: appState.isDarkMode,
                 onChanged: (bool value) {
