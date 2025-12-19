@@ -45,7 +45,7 @@ class ProfilePage extends ConsumerWidget {
               decoration: const InputDecoration(labelText: 'Username'),
             ),
             const SizedBox(height: 30),
-            const Text("Modifica Email (Bonus)", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text("Modifica Email", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             ReactiveTextField(
               formControlName: 'email',
@@ -75,7 +75,7 @@ class ProfilePage extends ConsumerWidget {
                           context.pop();
                         }
                       : null,
-                  child: const Text("Salva Modifiche"),
+                  child: const Text("Salva"),
                 );
               },
             ),
