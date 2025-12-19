@@ -29,8 +29,8 @@ class LoginPage extends ConsumerWidget {
               formControlName: 'email',
               decoration: const InputDecoration(labelText: 'Email'),
               validationMessages: {
-                ValidationMessage.required: (_) => 'Email richiesta',
-                ValidationMessage.email: (_) => 'Email non valida',
+                ValidationMessage.required: (erroe) => 'Email richiesta',
+                ValidationMessage.email: (error) => 'Email non valida',
               },
             ),
             const SizedBox(height: 20),
@@ -39,7 +39,7 @@ class LoginPage extends ConsumerWidget {
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Password'),
               validationMessages: {
-                ValidationMessage.required: (_) => 'Password richiesta',
+                ValidationMessage.required: (error) => 'Password richiesta',
               },
             ),
             const SizedBox(height: 40),
@@ -51,7 +51,12 @@ class LoginPage extends ConsumerWidget {
                           final email = form.control('email').value as String;
                           final password = form.control('password').value as String;
                           ref.read(authProvider.notifier).login(email, password);
-                          context.go('/');
+                          
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go('/');
+                          }
                         }
                       : null,
                   child: const Text("Entra"),
