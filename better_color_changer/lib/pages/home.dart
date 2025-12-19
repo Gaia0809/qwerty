@@ -28,10 +28,11 @@ class HomePage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Scegli un colore",
+                "Scegli un colore base:",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -47,12 +48,12 @@ class HomePage extends ConsumerWidget {
                         if (value != null) appNotifier.changeColor(value);
                       },
                       activeColor: Colors.blue,
-                      fillColor: WidgetStateProperty.resolveWith((states) => Colors.blue),
                     ),
                   ),
                   const SizedBox(width: 8),
                   const Text("Blue"),
                   const SizedBox(width: 20),
+                  
                   Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -65,12 +66,12 @@ class HomePage extends ConsumerWidget {
                         if (value != null) appNotifier.changeColor(value);
                       },
                       activeColor: Colors.green,
-                      fillColor: WidgetStateProperty.resolveWith((states) => Colors.green),
                     ),
                   ),
                   const SizedBox(width: 8),
                   const Text("Green"),
                   const SizedBox(width: 20),
+
                   Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -83,7 +84,6 @@ class HomePage extends ConsumerWidget {
                         if (value != null) appNotifier.changeColor(value);
                       },
                       activeColor: Colors.purple,
-                      fillColor: WidgetStateProperty.resolveWith((states) => Colors.purple),
                     ),
                   ),
                   const SizedBox(width: 8),
