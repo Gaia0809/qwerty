@@ -29,7 +29,7 @@ class LoginPage extends ConsumerWidget {
               formControlName: 'email',
               decoration: const InputDecoration(labelText: 'Email'),
               validationMessages: {
-                ValidationMessage.required: (erroe) => 'Email richiesta',
+                ValidationMessage.required: (error) => 'Email richiesta',
                 ValidationMessage.email: (error) => 'Email non valida',
               },
             ),
