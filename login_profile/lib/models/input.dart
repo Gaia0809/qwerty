@@ -1,11 +1,16 @@
-class UserLogin {
-  final String name;
+class User {
   final String email;
-  final String password;
+  final String username;
 
-  UserLogin({
-    required this.name,
+  User({
     required this.email,
-    required this.password,
+    required this.username,
   });
+
+  User copyWith({String? email, String? username}) {
+    return User(
+      email: email ?? this.email,
+      username: username ?? this.username,
+    );
+  }
 }
