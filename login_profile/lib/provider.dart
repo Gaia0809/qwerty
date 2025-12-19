@@ -18,10 +18,6 @@ class AuthNotifier extends Notifier<User?> {
       state = state!.copyWith(username: newUsername, email: newEmail);
     }
   }
-
-  void logout() {
-    state = null;
-  }
 }
 
 final authProvider = NotifierProvider<AuthNotifier, User?>(() {
